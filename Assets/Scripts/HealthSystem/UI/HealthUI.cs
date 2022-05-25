@@ -25,6 +25,7 @@ namespace MyOtherHalf.HPSystem
             fillImage.color = gradient.Evaluate(1f);
 
             iconImage?.gameObject.SetActive(true);
+            gameObject.SetActive(true);
         }
 
         private void OnHealthChanged(object sender, EventArgs e)
