@@ -38,7 +38,7 @@ namespace MyOtherHalf.InputSystem
             playerInputActions.PuzzleMode.Click.canceled += EndTouch;
             playerInputActions.PuzzleMode.WASDPress.started += EndTouch;
             playerInputActions.PuzzleMode.Move.performed += OnPuzzleMove;
-            playerInputActions.BattleMode.Move.performed += OnBattleMove;
+
             playerInputActions.BattleMode.Fire.performed += OnFire;
             playerInputActions.BattleMode.Look.performed += OnLooking;
         }
@@ -48,10 +48,15 @@ namespace MyOtherHalf.InputSystem
             playerInputActions.PuzzleMode.Click.canceled -= EndTouch;
             playerInputActions.PuzzleMode.WASDPress.started -= EndTouch;
             playerInputActions.PuzzleMode.Move.performed -= OnPuzzleMove;
-            playerInputActions.BattleMode.Move.performed -= OnBattleMove;
+
             playerInputActions.BattleMode.Fire.performed -= OnFire;
             playerInputActions.BattleMode.Look.performed -= OnLooking;
             playerInputActions.Disable();
+        }
+
+        private void FixedUpdate() 
+        {
+            BattleMove(playerInputActions.BattleMode.Move.ReadValue<Vector2>());
         }
 
         private void EndTouch(InputAction.CallbackContext context)
@@ -59,10 +64,9 @@ namespace MyOtherHalf.InputSystem
             OnSwipeTouchInput?.Invoke(swipeDirection);
         }
 
-        private void OnBattleMove(InputAction.CallbackContext context)
+        private void BattleMove(Vector2 direction)
         {
-            Debug.Log($"OnBattleMove {context.ReadValue<Vector2>()}");
-            OnLeftStickInput?.Invoke(context.ReadValue<Vector2>());
+            OnLeftStickInput?.Invoke(direction);
         }
 
         private void OnFire(InputAction.CallbackContext context)
