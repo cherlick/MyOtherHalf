@@ -21,17 +21,25 @@ namespace MyOtherHalf.Tools
         {
             if (cam)
             {
-                Vector3 viewPosition = transform.position;
+                Vector2 objectPosition = transform.position;
 
-                if (Mathf.Abs(viewPosition.x)>Mathf.Abs(screenBounds.x) + offSet)
+                if (Mathf.Abs(objectPosition.x)>Mathf.Abs(screenBounds.x) + offSet)
                 {
-                    transform.position = new Vector2(viewPosition.x * -1 , viewPosition.y);
+                    float xValue = objectPosition.x * -1;
+                    xValue = xValue > 0 ? screenBounds.x - offSet : xValue = -screenBounds.x + offSet;
+                    
+                    objectPosition.x = xValue;
                 }
 
-                if (Mathf.Abs(viewPosition.y)>Mathf.Abs(screenBounds.y) + offSet)
+                if (Mathf.Abs(objectPosition.y)>Mathf.Abs(screenBounds.y) + offSet)
                 {
-                    transform.position = new Vector2(viewPosition.x, viewPosition.y * -1);
+                    float yValue = objectPosition.y * -1;
+                    yValue = yValue > 0 ? screenBounds.y - offSet : yValue = -screenBounds.y + offSet;
+
+                    objectPosition.y = yValue;
                 }
+
+                transform.position = objectPosition;
             }
         }
     }
