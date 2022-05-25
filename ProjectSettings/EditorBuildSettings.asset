@@ -8,5 +8,14 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/CoreScene.unity
+    guid: 3acb98274ec91864c900eb3a278c897f
+  - enabled: 1
+    path: Assets/Scenes/StartScene.unity
+    guid: 20244a015deb5a5408cb531481183270
+  - enabled: 1
+    path: Assets/Scenes/PuzzleScenes/Puzzle_1.unity
+    guid: 4aa6215cc05a3584f959e08ebd6d56af
   m_configObjects:
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 0b940063b2c9f1a499a862224304d18c, type: 2}
