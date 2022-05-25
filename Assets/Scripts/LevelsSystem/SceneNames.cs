@@ -2,6 +2,7 @@ namespace MyOtherHalf.LevelsSystem
 {
     public enum ScenesNames
     {
+        StartScene,
         Puzzle_1,
         Battle_1,
         Puzzle_2,

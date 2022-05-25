@@ -7,9 +7,16 @@ namespace MyOtherHalf.Characters
 {
     public class BaseCharacterController : MonoBehaviour
     {
-        [SerializeField] protected new Rigidbody2D rigidbody2D; 
+        protected CharacterData characterData;
+        protected Rigidbody2D rigidbody_2D; 
         private PoolingSystem poolingSystem;
         private RayCastSystem<Transform> _rayCast = new RayCastSystem<Transform>();
+
+        protected virtual void Awake() 
+        {
+            rigidbody_2D = GetComponent<Rigidbody2D>();
+            poolingSystem = PoolingSystem.Instance;
+        }
         
         protected void StepsMove(Vector2 direction)
         {
@@ -17,17 +24,17 @@ namespace MyOtherHalf.Characters
 
             if (!_rayCast.HitObject(transform.position, direction,  1f, ~(1 << LayerMask.NameToLayer("Player"))))
             {
-                rigidbody2D.MovePosition(nextPosition);
+                rigidbody_2D.MovePosition(nextPosition);
             }
         }
 
         protected void Movement(Vector2 direction, float moveSpeed)
         {
             direction = direction * moveSpeed;
-            rigidbody2D.velocity = direction;
+            rigidbody_2D.velocity = direction;
         }
 
-        protected void FireProjectiles(Vector2 direction, string projectileName)
+        protected void FireProjectiles(Vector2 direction, string projectileName, float damageAmount)
         {
             Debug.Log($"Pew Pew {direction}");
             /*GameObject newBullet = poolingSystem.GetObjectFromPool(projectileName);

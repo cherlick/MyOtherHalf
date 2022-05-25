@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace MyOtherHalf.LevelsSystem
@@ -20,9 +19,10 @@ namespace MyOtherHalf.LevelsSystem
     }
 
     [Serializable]
-    public class EnemiesToSpawn{
+    public class EnemiesToSpawn
+    {
     public GameObject enemyPrefab;
     public int amountToSpawn;
-}
+    }
 }
 

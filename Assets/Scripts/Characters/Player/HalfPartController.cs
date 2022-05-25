@@ -1,14 +1,30 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using MyOtherHalf.InputSystem;
+using System;
 
 namespace MyOtherHalf.Characters
 {
-    public class PieceController : BaseCharacterController
+    public class HalfPartController : BaseCharacterController
     {
+        public static Action<Vector2> OnHalfCollision;
+        public static Action OnStepDone;
+
+        [SerializeField] private Light2D light2D;
+        [SerializeField] private CharacterData data;
+        private SpriteRenderer halfSpriteRender;
         private InputManager inputManager;
-        private void Awake() 
+        
+        protected override void Awake() 
         {
+            base.Awake();
             inputManager = InputManager.Instance;
+
+            light2D = GetComponentInChildren<Light2D>();
+            light2D.color = data.backgroundLightColor;
+
+            halfSpriteRender = GetComponent<SpriteRenderer>();
+            halfSpriteRender.sprite = data.characterSprite;
         }
 
         private void OnEnable() 
@@ -43,6 +59,17 @@ namespace MyOtherHalf.Characters
             }
 
             StepsMove(direction);
+            OnStepDone?.Invoke();
+        }
+
+        private void OnCollisionEnter2D(Collision2D other) 
+        {
+            if (other.gameObject.CompareTag("Player"))
+            {
+                Debug.Log("Merge");
+                OnHalfCollision?.Invoke(transform.position);
+                gameObject.SetActive(false);
+            }    
         }
     }
 }
