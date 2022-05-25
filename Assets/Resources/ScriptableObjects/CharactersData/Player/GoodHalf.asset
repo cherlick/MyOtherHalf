@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96a51a26d7ce0ed4db08cf2898d04a5a, type: 3}
+  m_Name: GoodHalf
+  m_EditorClassIdentifier: 
+  playerCharacterType: 1
+  characterSprite: {fileID: 21300000, guid: 2a79e6d216ed4c642ba2da8498aab241, type: 3}
+  baseDamage: 0
+  movementSpeed: 0
+  baseMaxHealth: 0
+  backgroundLightColor: {r: 0, g: 0.94729495, b: 1, a: 1}

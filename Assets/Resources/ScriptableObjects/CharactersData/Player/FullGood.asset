@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96a51a26d7ce0ed4db08cf2898d04a5a, type: 3}
+  m_Name: FullGood
+  m_EditorClassIdentifier: 
+  playerCharacterType: 3
+  characterSprite: {fileID: 21300000, guid: 5777779e28bbcd24aa74dba4f5b1478f, type: 3}
+  baseDamage: 2
+  movementSpeed: 5
+  baseMaxHealth: 10
+  backgroundLightColor: {r: 0, g: 0.9490196, b: 1, a: 1}
