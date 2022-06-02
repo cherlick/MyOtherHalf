@@ -1,4 +1,4 @@
-namespace MyOtherHalf.LevelsSystem
+namespace MyOtherHalf.Core.LevelsSystem
 {
     public enum ScenesNames
     {

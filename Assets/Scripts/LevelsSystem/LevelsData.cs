@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace MyOtherHalf.LevelsSystem
+namespace MyOtherHalf.Core.LevelsSystem
 {
     [CreateAssetMenu(fileName = "LevelData", menuName = "LevelsSystem/LevelData")]
     public class LevelsData : ScriptableObject

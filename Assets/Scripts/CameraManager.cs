@@ -1,28 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using MyOtherHalf.LevelsSystem;
-using System;
+using MyOtherHalf.Tools;
 
-namespace MyOtherHalf.CameraSystem
+namespace MyOtherHalf.Core.CameraSystem
 {
-    public class CameraManager : MonoBehaviour
+    public class CameraManager : Singleton<CameraManager>
     {
         [SerializeField] private float puzzleCameraSize = 5;
         [SerializeField] private float battleCameraSize = 8;
         private Camera cam;
-        private LevelsTypes currentLevelType;
 
         private void Awake() 
         {
             cam = GetComponent<Camera>();
-            SetupCameraForLevelType();
         }
 
-        private void SetupCameraForLevelType()
+        public void ChangeCameraState(GameState currentGameState)
         {
-            cam.orthographicSize = currentLevelType == LevelsTypes.Battle 
-                ? battleCameraSize : puzzleCameraSize;
+            switch (currentGameState)
+            {
+                case GameState.PuzzleMode:
+                    cam.orthographicSize = puzzleCameraSize;
+                break;
+
+                case GameState.BattleMode:
+                    cam.orthographicSize = battleCameraSize;
+                break;
+            }
         }
     }
 }

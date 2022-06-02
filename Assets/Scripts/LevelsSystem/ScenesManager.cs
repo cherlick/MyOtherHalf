@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace MyOtherHalf.LevelsSystem
+namespace MyOtherHalf.Core.LevelsSystem
 {
     public static class ScenesManager {
         public static void LoadScene(int index, LoadSceneMode mode = LoadSceneMode.Single)

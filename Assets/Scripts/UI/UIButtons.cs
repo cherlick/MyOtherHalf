@@ -1,6 +1,5 @@
-using System;
 using UnityEngine;
-using MyOtherHalf.LevelsSystem;
+using MyOtherHalf.Core.LevelsSystem;
 
 namespace MyOtherHalf.UI
 {
