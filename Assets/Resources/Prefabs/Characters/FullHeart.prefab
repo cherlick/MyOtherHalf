@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 4334305790582093563}
   - component: {fileID: 5013591317068794595}
   - component: {fileID: 1123918565838738486}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FullHeart
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
