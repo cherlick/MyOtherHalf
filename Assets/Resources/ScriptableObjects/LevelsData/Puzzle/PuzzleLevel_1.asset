@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c0e4d735fa31af40b24073508bcfb13, type: 3}
-  m_Name: PuzzleLevel_2
+  m_Name: PuzzleLevel_1
   m_EditorClassIdentifier: 
-  sceneName: 0
-  nextSceneName: 3
-  levelType: 0
+  sceneName: 1
+  nextSceneName: 2
+  levelType: 1
   maxNumberOfSteps: 15
   enemyes: []
   numberOfSpanwPoints: 0
