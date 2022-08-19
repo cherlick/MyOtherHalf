@@ -334,6 +334,45 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""UIMode"",
+            ""id"": ""a3aff647-b884-4734-8478-7ff505c49b90"",
+            ""actions"": [
+                {
+                    ""name"": ""Click"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""879c9de3-8603-4151-a350-ac44744776a7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""f37e7909-3ad6-456f-a5b8-6517b780a772"",
+                    ""path"": ""<Touchscreen>/primaryTouch/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Touch"",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""62b3149f-2cbf-4ccc-8254-202c29a8c8d8"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""K&M"",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -371,6 +410,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_BattleMode_Move = m_BattleMode.FindAction("Move", throwIfNotFound: true);
         m_BattleMode_Fire = m_BattleMode.FindAction("Fire", throwIfNotFound: true);
         m_BattleMode_Look = m_BattleMode.FindAction("Look", throwIfNotFound: true);
+        // UIMode
+        m_UIMode = asset.FindActionMap("UIMode", throwIfNotFound: true);
+        m_UIMode_Click = m_UIMode.FindAction("Click", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -524,6 +566,39 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         }
     }
     public BattleModeActions @BattleMode => new BattleModeActions(this);
+
+    // UIMode
+    private readonly InputActionMap m_UIMode;
+    private IUIModeActions m_UIModeActionsCallbackInterface;
+    private readonly InputAction m_UIMode_Click;
+    public struct UIModeActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public UIModeActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Click => m_Wrapper.m_UIMode_Click;
+        public InputActionMap Get() { return m_Wrapper.m_UIMode; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UIModeActions set) { return set.Get(); }
+        public void SetCallbacks(IUIModeActions instance)
+        {
+            if (m_Wrapper.m_UIModeActionsCallbackInterface != null)
+            {
+                @Click.started -= m_Wrapper.m_UIModeActionsCallbackInterface.OnClick;
+                @Click.performed -= m_Wrapper.m_UIModeActionsCallbackInterface.OnClick;
+                @Click.canceled -= m_Wrapper.m_UIModeActionsCallbackInterface.OnClick;
+            }
+            m_Wrapper.m_UIModeActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Click.started += instance.OnClick;
+                @Click.performed += instance.OnClick;
+                @Click.canceled += instance.OnClick;
+            }
+        }
+    }
+    public UIModeActions @UIMode => new UIModeActions(this);
     private int m_TouchSchemeIndex = -1;
     public InputControlScheme TouchScheme
     {
@@ -553,5 +628,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+    }
+    public interface IUIModeActions
+    {
+        void OnClick(InputAction.CallbackContext context);
     }
 }

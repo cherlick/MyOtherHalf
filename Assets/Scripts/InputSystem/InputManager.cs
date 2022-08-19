@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using MyOtherHalf.Tools;
+using MyOtherHalf.Core;
 using System;
 
 namespace MyOtherHalf.InputSystem
@@ -29,6 +30,7 @@ namespace MyOtherHalf.InputSystem
         private void Awake() 
         {
             playerInputActions = new PlayerInputActions();
+
             cam = cam == null ? Camera.main : cam;
         }
 
@@ -41,6 +43,9 @@ namespace MyOtherHalf.InputSystem
 
             playerInputActions.BattleMode.Fire.performed += OnFire;
             playerInputActions.BattleMode.Look.performed += OnLooking;
+            playerInputActions.BattleMode.Disable();
+
+            GameManager.OnGameStateChange += ChangeActionMap;
         }
 
         private void OnDisable() 
@@ -52,6 +57,8 @@ namespace MyOtherHalf.InputSystem
             playerInputActions.BattleMode.Fire.performed -= OnFire;
             playerInputActions.BattleMode.Look.performed -= OnLooking;
             playerInputActions.Disable();
+
+            GameManager.OnGameStateChange -= ChangeActionMap;
         }
 
         private void FixedUpdate() 
@@ -90,6 +97,31 @@ namespace MyOtherHalf.InputSystem
             Vector2 direction = context.ReadValue<Vector2>();
 
             swipeDirection = direction.magnitude !=0 ? direction : swipeDirection;
+        }
+
+        private void ChangeActionMap(GameState state)
+        {
+            switch (state)
+            {
+                case GameState.Pause:
+                case GameState.StartMenu:
+                    playerInputActions.UIMode.Enable();
+                    playerInputActions.PuzzleMode.Disable();
+                    playerInputActions.BattleMode.Disable();
+                break;
+
+                case GameState.PuzzleMode:
+                    playerInputActions.UIMode.Disable();
+                    playerInputActions.PuzzleMode.Enable();
+                    playerInputActions.BattleMode.Disable();
+                break;
+
+                case GameState.BattleMode:
+                    playerInputActions.UIMode.Disable();
+                    playerInputActions.BattleMode.Enable();
+                    playerInputActions.PuzzleMode.Disable();
+                break;
+            }
         }
     }
 }
