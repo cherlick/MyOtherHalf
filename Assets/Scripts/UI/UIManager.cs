@@ -9,7 +9,6 @@ namespace MyOtherHalf.Core.UI
 {
     public class UIManager : Singleton<UIManager>
     {
-        public static Action<GameState> OnUIChangeMode;
         public static Action<float> OnUIStepsUpdate;
         public static Action<bool,bool> OnUIMergePanelUpdate;
 
@@ -29,20 +28,21 @@ namespace MyOtherHalf.Core.UI
         {
             OnUIMergePanelUpdate += MergePanel;
             OnUIStepsUpdate += UIStepUpdate;
-            OnUIChangeMode += ChangeModes;
+            GameManager.OnGameStateChange += ChangeModes;
         }
 
         private void OnDisable() 
         {
             OnUIMergePanelUpdate -= MergePanel;
             OnUIStepsUpdate -= UIStepUpdate;
+            GameManager.OnGameStateChange -= ChangeModes;
         }
 
         private void DisablePanels()
         {
             mergePanel.SetActive(false);
             puzzlePanel.SetActive(false);
-            //battlePanel.SetActive(false);
+            battlePanel.SetActive(false);
             inputPanel.SetActive(false);
             //menuPanel.SetActive(false);
         }
@@ -61,6 +61,7 @@ namespace MyOtherHalf.Core.UI
         private void ChangeModes(GameState state)
         {
             DisablePanels();
+            Debug.Log($"Change UI to {state}");
 
             switch (state)
             {

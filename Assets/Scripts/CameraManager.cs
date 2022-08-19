@@ -12,9 +12,10 @@ namespace MyOtherHalf.Core.CameraSystem
         private void Awake() 
         {
             cam = GetComponent<Camera>();
+            GameManager.OnGameStateChange += ChangeCameraState;
         }
 
-        public void ChangeCameraState(GameState currentGameState)
+        private void ChangeCameraState(GameState currentGameState)
         {
             switch (currentGameState)
             {

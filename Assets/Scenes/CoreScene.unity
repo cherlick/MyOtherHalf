@@ -332,7 +332,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &303560466
 RectTransform:
   m_ObjectHideFlags: 0
@@ -517,6 +517,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allLevels:
   - {fileID: 11400000, guid: 313358a14df4c0e4285d8343b3cda4fe, type: 2}
+  - {fileID: 11400000, guid: c201d9e9370e22045bb099a434804354, type: 2}
+  - {fileID: 11400000, guid: 71591e847467d1845958d928016f5fdd, type: 2}
+  - {fileID: 11400000, guid: 8cbec154b8d8c7741b52f9e700322a25, type: 2}
 --- !u!1 &334922867
 GameObject:
   m_ObjectHideFlags: 0
@@ -1045,7 +1048,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mergePanel: {fileID: 1021698394}
   puzzlePanel: {fileID: 1172613210}
-  battlePanel: {fileID: 0}
+  battlePanel: {fileID: 303560465}
   inputPanel: {fileID: 1607078033}
   stepsText: {fileID: 125596026}
   menuPanel: {fileID: 0}
@@ -1494,6 +1497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fullHeart: {fileID: 1154178280}
+  portal: {fileID: 0}
 --- !u!1 &978850624
 GameObject:
   m_ObjectHideFlags: 0

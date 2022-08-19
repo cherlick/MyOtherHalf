@@ -10,7 +10,7 @@ namespace MyOtherHalf.Core.LevelsSystem
     public class LevelManager : Singleton<LevelManager>
     {
         public static Action OnRestartRequest;
-        public static Action OnLevelChange;
+        public static Action OnSceneChange;
         [SerializeField] LevelsData[] allLevels;
 
         private Dictionary<ScenesNames, LevelsData> levels = new Dictionary<ScenesNames, LevelsData>();
@@ -32,9 +32,27 @@ namespace MyOtherHalf.Core.LevelsSystem
 
         public void ChangeScene(ScenesNames nextSceneName)
         {
+            Debug.Log($"Is {nextSceneName} a Valid scena? {IsSceneValid(nextSceneName)}");
+
+            if (!IsSceneValid(nextSceneName)) return;
+
+            if (nextSceneName != currentScene)
+            {
+                ScenesManager.UnloadScene(currentScene);
+            }
+            
             ScenesManager.LoadScene(nextSceneName, LoadSceneMode.Additive);
-            ScenesManager.UnloadScene(currentScene);
+
             currentScene = nextSceneName;
+            OnSceneChange?.Invoke();
+            if (IsSceneALevel(currentScene))
+            {
+                SetLevelData();
+            }
+            else
+            {
+                currentLevelType = LevelsTypes.None;
+            }
         }
 
         public void RestartScene()
@@ -42,20 +60,23 @@ namespace MyOtherHalf.Core.LevelsSystem
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
-        private void ChangeLevel()
+        public void ChangeLevel()
         {
-            if (levels.ContainsKey(nextLevel))
-            {
-                ChangeScene(nextLevel);
-                nextLevel = levels[currentScene].nextSceneName;
-                currentLevelSteps = levels[currentScene].maxNumberOfSteps;
-                currentLevelType = levels[currentScene].levelType;
-                OnLevelChange?.Invoke();
-            }
-            else
-            {
-                currentLevelType = LevelsTypes.None;
-            }
+            ChangeScene(nextLevel);   
+        }
+
+        private bool IsSceneALevel(ScenesNames nextSceneName) => levels.ContainsKey(nextSceneName);
+
+        private bool IsSceneValid(ScenesNames nextSceneName)
+        {
+            return SceneUtility.GetBuildIndexByScenePath(nextSceneName.ToString()) != -1;
+        }
+
+        private void SetLevelData()
+        {
+            nextLevel = levels[currentScene].nextSceneName;
+            currentLevelSteps = levels[currentScene].maxNumberOfSteps;
+            currentLevelType = levels[currentScene].levelType;
         }
     }
 }

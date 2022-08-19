@@ -64,7 +64,7 @@ namespace MyOtherHalf.Characters
 
         private void OnCollisionEnter2D(Collision2D other) 
         {
-            if (other.gameObject.CompareTag("Player"))
+            if (other.gameObject.CompareTag("OtherHalf"))
             {
                 Debug.Log("Merge");
                 OnHalfCollision?.Invoke(transform.position);
