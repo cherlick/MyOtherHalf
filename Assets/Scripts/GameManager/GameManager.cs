@@ -13,18 +13,23 @@ namespace MyOtherHalf.Core
         #region Events
 
         public static Action<CharacterData> OnMergeSelection;
+        public static Action<GameState> OnGameStateChange;
         public static Action OnEnemyKilled;
         public static Action<float> OnStepsUpdated;
+        public static Action OnLevelComplete;
+        public static Action<GameObject> OnPortalStart;
 
         #endregion
 
         #region Private variables
         [SerializeField] private GameObject fullHeart;
+        [SerializeField] private GameObject portal;
 
         private GameState currentGameState;
         private GameState previousGameState;
         private LevelManager levelManager;
         private float puzzleModeStepsCount;
+        private float battleModeEnemiesCount;
 
         #endregion
 
@@ -48,16 +53,20 @@ namespace MyOtherHalf.Core
         {
             HalfPartController.OnHalfCollision += Merge;
             HalfPartController.OnStepDone += StepUpdate;
-            LevelManager.OnLevelChange += LevelChangeUpdate;
+            LevelManager.OnSceneChange += LevelChangeUpdate;
             OnMergeSelection += MergeSelection;
+            OnLevelComplete += LevelComplete;
+            OnPortalStart += SetCorrectPortal;
         }
 
         private void OnDisable() 
         {
             HalfPartController.OnHalfCollision -= Merge;
             HalfPartController.OnStepDone -= StepUpdate;
-            LevelManager.OnLevelChange -= LevelChangeUpdate;
+            LevelManager.OnSceneChange -= LevelChangeUpdate;
             OnMergeSelection -= MergeSelection;
+            OnLevelComplete -= LevelComplete;
+            OnPortalStart -= SetCorrectPortal;
         }
 
         #endregion
@@ -89,27 +98,46 @@ namespace MyOtherHalf.Core
         {
             fullHeart.GetComponent<PlayerController>().SetData = newData;
             UIManager.OnUIMergePanelUpdate?.Invoke(false,true);
+            ChangeState(GameState.BattleMode);
+            portal!.SetActive(true);
         }
 
         private void LevelChangeUpdate()
         {
-            if (levelManager.GetCurrentLevelType == LevelsTypes.Puzzles)
+            Debug.Log($"LevelChangeUpdate {levelManager.GetCurrentLevelType}");
+            switch (levelManager.GetCurrentLevelType)
             {
-                puzzleModeStepsCount = levelManager.GetCurrentLevelSteps;
-                ChangeState(GameState.PuzzleMode);
+                case LevelsTypes.Puzzles:
+                    puzzleModeStepsCount = levelManager.GetCurrentLevelSteps;
+                    ChangeState(GameState.PuzzleMode);
+                    fullHeart.gameObject.SetActive(false);
+                break;
+                case LevelsTypes.Battle:
+                    //battleModeEnemiesCount = levelManager.GetEnemiesCount;
+                    ChangeState(GameState.BattleMode);
+                break;
             }
-            if (levelManager.GetCurrentLevelType == LevelsTypes.Battle)
+            if (portal != null)
             {
-                ChangeState(GameState.BattleMode);
+                portal!.SetActive(false);
             }
+            
         }
+
+        private void SetCorrectPortal(GameObject newPortal) => portal = newPortal;
 
         private void ChangeState(GameState newState)
         {
+            Debug.Log($"State Change to {newState}");
             previousGameState = currentGameState;
             currentGameState = newState;
-            UIManager.OnUIChangeMode?.Invoke(currentGameState);
-            CameraManager.Instance.ChangeCameraState(currentGameState);
+            OnGameStateChange.Invoke(currentGameState);
+        }
+
+        private void LevelComplete()
+        {
+            // #TODO Saving scores and check if there is more levels
+            levelManager.ChangeLevel();
         }
 
         #endregion
